@@ -77,7 +77,7 @@ public struct FontsGeneratorMacro: MemberMacro {
 
 @main
 struct FontGeneratorPlugin: CompilerPlugin {
-  let providingMacros: [Macro.Type] = [
+  public let providingMacros: [Macro.Type] = [
     FontsGeneratorMacro.self,
   ]
 }
