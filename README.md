@@ -1,116 +1,143 @@
 # FontsGeneratorMacro
 
-A Swift macro that automatically generates a set of static font properties and a helper method for custom font sizes based on a provided font name.
+A Swift macro that automates font property generation and provides a helper method for custom font sizes based on a provided font name.
 
 ## Overview
 
-`FontsGeneratorMacro` simplifies font management in your SwiftUI projects. By annotating an empty enum with the macro and providing a font name, the macro dynamically creates a variety of static font properties for common text styles (e.g., `largeTitle`, `title`, `body`, etc.) and a helper function to create a font with a custom size.
+`FontsGeneratorMacro` simplifies font management in SwiftUI by dynamically generating static font properties for common text styles (e.g., `largeTitle`, `title`, `body`) and a helper function for custom sizes.
 
 ## Features
 
-- **Automatic Font Property Generation:** Generates static properties for common text styles.
-- **Custom Font Size Function:** Adds a method `ofSize(_:)` to create fonts with arbitrary sizes.
-- **Built-in Error Handling:** Throws a descriptive error if no font name is provided.
+- **Automatic Font Property Generation** – Creates static properties for SwiftUI text styles.
+- **Custom Font Size Support** – Use `ofSize(_:)` to define arbitrary font sizes.
+- **Error Handling** – Throws an error if no font name is provided.
 
-## Installation
+---
 
-1. **Clone the Repository:**
+## Installation ⚙️
 
-   ```bash
-   git clone https://github.com/your-username/FontsGeneratorMacro.git
-   cd FontsGeneratorMacro
-   ```
+### Swift Package Manager
 
-2. **Open in Xcode:**
+To install via **Swift Package Manager**, add this dependency to your `Package.swift`:
 
-   Open the project in Xcode. This project uses SwiftSyntax macros, so it requires Swift 5.9 or later and the appropriate SwiftSyntax libraries.
+```
+.package(url: "https://github.com/vetrek/fonts-generator-macro", from: "1.0.0"),
+```
 
-3. **Build the Plugin:**
-
-   Build the macro plugin target to ensure everything compiles correctly. Make sure your project settings support Swift compiler plugins.
+---
 
 ## Usage
 
-Annotate an empty enum with the `@FontGenerator` attribute and provide a `fontName` argument. For example:
+Define your font inside an `extension Font`, ensuring proper namespacing and clarity:
 
 ```swift
-@FontGenerator(fontName: "Zapfino")
-enum Zapfino {}
-```
+extension Font {
+    enum FuturaBT {
+        @FontGenerator(fontName: "FuturaBT-Bold")
+        enum Bold {}
 
-When the macro expands, it generates the following code:
+        @FontGenerator(fontName: "FuturaBT-Light")
+        enum Light {}
 
-```swift
-enum Zapfino {
-    public static var largeTitle: Font {
-        .custom("Zapfino", size: 34, relativeTo: .largeTitle)
-    }
-    public static var title: Font {
-        .custom("Zapfino", size: 28, relativeTo: .title)
-    }
-    public static var title2: Font {
-        .custom("Zapfino", size: 22, relativeTo: .title2)
-    }
-    public static var title3: Font {
-        .custom("Zapfino", size: 20, relativeTo: .title3)
-    }
-    public static var body: Font {
-        .custom("Zapfino", size: 17, relativeTo: .body)
-    }
-    public static var callout: Font {
-        .custom("Zapfino", size: 16, relativeTo: .callout)
-    }
-    public static var subheadline: Font {
-        .custom("Zapfino", size: 15, relativeTo: .subheadline)
-    }
-    public static var footnote: Font {
-        .custom("Zapfino", size: 13, relativeTo: .footnote)
-    }
-    public static var caption: Font {
-        .custom("Zapfino", size: 12, relativeTo: .caption)
-    }
-    public static var caption2: Font {
-        .custom("Zapfino", size: 11, relativeTo: .caption2)
-    }
-    public static func ofSize(_ size: CGFloat) -> Font {
-        .custom("Zapfino", size: size)
+        @FontGenerator(fontName: "FuturaBT-Italic")
+        enum Italic {}
     }
 }
 ```
 
-### Error Handling
+---
 
-If you omit the `fontName` parameter, the macro will throw a `FontsGeneratorMacroError.missingFontName` error:
+## Why Use a `Font` Extension?
 
+Encapsulating fonts within `Font` provides **better structure, usability, and readability**.
+
+### ✅ Cleaner & More Intuitive API
 ```swift
-@FontGenerator()
-enum TestFont {}
+Text("Hello, World!")
+    .font(.FuturaBT.Bold.largeTitle)
 ```
 
-Always provide a valid font name:
+### ✅ Prevents Global Namespace Pollution
+- Avoids cluttering global scope with multiple enums.
+- Keeps font-related definitions grouped.
+- Reduces conflicts with other types.
+
+### ✅ Aligns with Apple’s API Design
+Swift and SwiftUI follow a **structured, namespaced approach** for clarity:
+- `UIColor.systemRed`
+- `UIFont.TextStyle.body`
+- `Font.largeTitle`
+
+---
+
+## SwiftUI Example 🖥️
+
+Use the generated fonts seamlessly in SwiftUI:
 
 ```swift
-@FontGenerator(fontName: "YourFontName")
-enum YourFontEnum {}
+struct ContentView: View {
+    var body: some View {
+        VStack(spacing: 10) {
+            Text("Large Title")
+                .font(.FuturaBT.Bold.largeTitle)
+
+            Text("Body")
+                .font(.FuturaBT.Bold.body)
+
+            Text("Custom Size")
+                .font(.FuturaBT.Bold.ofSize(14))
+        }
+    }
+}
 ```
 
-## Testing
+---
 
-The repository includes tests that verify both the macro expansion and error handling:
+## Generated Code
 
-1. **Run Tests in Xcode:**
+The macro expands into:
 
-   - Select the `FontsGeneratorMacroTests` scheme.
-   - Press `Cmd + U` to run the tests.
+```swift
+extension Font {
+    enum FuturaBT {
+        enum Bold {
+            public static var largeTitle: Font {
+                .custom("AnyFontName", size: 34, relativeTo: .largeTitle)
+            }
 
-2. **What’s Tested:**
-   - Correct macro expansion into static properties and a helper function.
-   - Throwing of `FontsGeneratorMacroError.missingFontName` when no font name is provided.
+            public static var title: Font {
+                .custom("AnyFontName", size: 28, relativeTo: .title)
+            }
 
-## Contributing
+            public static var body: Font {
+                .custom("AnyFontName", size: 17, relativeTo: .body)
+            }
 
-Contributions are welcome! Fork the repository and submit pull requests with your improvements, bug fixes, or new features.
+            public static func ofSize(_ size: CGFloat) -> Font {
+                .custom("AnyFontName", size: size)
+            }
+        }
+    }
+}
+```
 
-## License
+---
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+## Contributing 🤝
+
+We welcome contributions! Feel free to:
+- Report issues.
+- Submit pull requests.
+- Suggest features.
+
+---
+
+## License 📜
+
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
+
+---
+
+## Support 💬
+
+For any questions or support, feel free to **open an issue**.
