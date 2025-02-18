@@ -95,7 +95,7 @@ struct ContentView: View {
 
 ## Generated Code
 
-The macro expands into:
+When the macro expands, it generates the following:
 
 ```swift
 extension Font {
@@ -109,8 +109,36 @@ extension Font {
                 .custom("AnyFontName", size: 28, relativeTo: .title)
             }
 
+            public static var title2: Font {
+                .custom("AnyFontName", size: 22, relativeTo: .title2)
+            }
+
+            public static var title3: Font {
+                .custom("AnyFontName", size: 20, relativeTo: .title3)
+            }
+
             public static var body: Font {
                 .custom("AnyFontName", size: 17, relativeTo: .body)
+            }
+
+            public static var callout: Font {
+                .custom("AnyFontName", size: 16, relativeTo: .callout)
+            }
+
+            public static var subheadline: Font {
+                .custom("AnyFontName", size: 15, relativeTo: .subheadline)
+            }
+
+            public static var footnote: Font {
+                .custom("AnyFontName", size: 13, relativeTo: .footnote)
+            }
+
+            public static var caption: Font {
+                .custom("AnyFontName", size: 12, relativeTo: .caption)
+            }
+
+            public static var caption2: Font {
+                .custom("AnyFontName", size: 11, relativeTo: .caption2)
             }
 
             public static func ofSize(_ size: CGFloat) -> Font {
