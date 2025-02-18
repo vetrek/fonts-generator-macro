@@ -60,6 +60,6 @@
 ///    }
 @attached(member, names: arbitrary)
 public macro FontsGenerator(fontName: String) = #externalMacro(
-  module: "FontsGeneratorMacros",
+  module: "FontsGeneratorMacrosPlugin",
   type: "FontsGeneratorMacro"
 )

@@ -74,10 +74,3 @@ public struct FontsGeneratorMacro: MemberMacro {
     return declarations
   }
 }
-
-@main
-struct FontGeneratorPlugin: CompilerPlugin {
-  public let providingMacros: [Macro.Type] = [
-    FontsGeneratorMacro.self,
-  ]
-}
