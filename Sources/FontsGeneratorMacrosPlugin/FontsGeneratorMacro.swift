@@ -4,6 +4,10 @@ import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 import Foundation
 
+#if !canImport(SwiftSyntax600)
+import SwiftSyntaxMacroExpansion
+#endif
+
 /// Defines errors that can occur in FontGeneratorMacro
 public enum FontsGeneratorMacroError: Error, CustomStringConvertible {
   case missingFontName
