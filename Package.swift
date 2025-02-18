@@ -10,9 +10,9 @@ let package = Package(
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
     .library(
-      name: "FontsGeneratorMacros",
+      name: "FontsGeneratorMacros",  // This is what clients import
       targets: ["FontsGeneratorMacros"]
-    )
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0-latest"),
@@ -22,7 +22,7 @@ let package = Package(
     // Targets can depend on other targets in this package and products from dependencies.
     // Macro implementation that performs the source transformation of a macro.
     .macro(
-      name: "FontsGeneratorMacrosPlugin",
+      name: "FontsGeneratorMacrosPlugin",  // This is the implementation module
       dependencies: [
         .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
         .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
@@ -31,7 +31,7 @@ let package = Package(
     
     // Library that exposes a macro as part of its API, which is used in client programs.
     .target(
-      name: "FontsGeneratorMacros",
+      name: "FontsGeneratorMacros",  // This is the public interface
       dependencies: ["FontsGeneratorMacrosPlugin"]
     ),
     
