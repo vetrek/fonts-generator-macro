@@ -37,7 +37,7 @@ let package = Package(
     
     // A test target used to develop the macro implementation.
     .testTarget(
-      name: "FontsGeneratorMacrosTests",
+      name: "FontsGeneratorMacrosPluginTests",
       dependencies: [
         "FontsGeneratorMacrosPlugin",
         .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
